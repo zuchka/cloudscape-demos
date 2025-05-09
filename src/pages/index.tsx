@@ -13,7 +13,7 @@ import Button from '@cloudscape-design/components/button';
 import SpaceBetween from '@cloudscape-design/components/space-between';
 import TextFilter from '@cloudscape-design/components/text-filter';
 import Pagination from '@cloudscape-design/components/pagination';
-import SegmentedControl from '@cloudscape-design/components/segmented-control';
+import Tabs from '@cloudscape-design/components/tabs';
 import Container from '@cloudscape-design/components/container';
 import Icon from '@cloudscape-design/components/icon';
 import Flashbar from '@cloudscape-design/components/flashbar';
@@ -56,21 +56,20 @@ const demos = [
 ];
 
 // Get unique categories
-const categories = ['All', ...new Set(demos.map(demo => demo.category))];
+const categories = [...new Set(demos.map(demo => demo.category))];
 
 export default function Home() {
-  const [selectedItems, setSelectedItems] = useState([]);
   const [filterText, setFilterText] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [activeCategory, setActiveCategory] = useState('All');
   const [currentPageIndex, setCurrentPageIndex] = useState(1);
-  const itemsPerPage = 16;
+  const itemsPerPage = 12;
 
   // Filter demos based on filter text and selected category
   const filteredDemos = demos.filter(
     demo => 
       (demo.title.toLowerCase().includes(filterText.toLowerCase()) ||
        demo.description.toLowerCase().includes(filterText.toLowerCase())) &&
-      (selectedCategory === 'All' || demo.category === selectedCategory)
+      (activeCategory === 'All' || demo.category === activeCategory)
   );
 
   // Paginate the filtered demos
@@ -83,8 +82,6 @@ export default function Home() {
     <AppLayout
       navigationHide
       toolsHide
-      breadcrumbs={[]}
-      contentType="default"
       content={
         <ContentLayout
           header={
@@ -92,10 +89,13 @@ export default function Home() {
               <Header
                 variant="h1"
                 actions={
-                  <SpaceBetween direction="horizontal" size="xs">
-                    <Button iconName="refresh" />
-                    <Button variant="primary">Launch new demo</Button>
-                  </SpaceBetween>
+                  <Button 
+                    variant="primary"
+                    iconAlign="right"
+                    iconName="external"
+                  >
+                    Launch new demo
+                  </Button>
                 }
               >
                 Cloudscape Design System Demos
@@ -117,36 +117,45 @@ export default function Home() {
         >
           <SpaceBetween size="l">
             <Container>
-              <Grid gridDefinition={[{ colspan: 7 }, { colspan: 5 }]}>
-                <div>
-                  <Header variant="h2">Demo catalog</Header>
-                  <Box variant="p">
-                    Browse {demos.length} examples of Cloudscape Design System patterns and components. 
-                    Each demo shows best practices for cloud application experiences.
-                  </Box>
-                </div>
-
-                <SpaceBetween direction="horizontal" size="xs">
-                  <TextFilter
-                    filteringText={filterText}
-                    filteringPlaceholder="Find demos"
-                    filteringAriaLabel="Filter demos"
-                    onChange={({ detail }) => {
-                      setFilterText(detail.filteringText);
-                      setCurrentPageIndex(1);
-                    }}
-                  />
-                  <SegmentedControl
-                    selectedId={selectedCategory}
-                    onChange={({ detail }) => {
-                      setSelectedCategory(detail.selectedId);
-                      setCurrentPageIndex(1);
-                    }}
-                    options={categories.map(category => ({ id: category, text: category }))}
-                  />
-                </SpaceBetween>
+              <Box variant="h2">Demo catalog</Box>
+              <Box variant="p" padding={{ bottom: "m" }}>
+                Browse {demos.length} examples of Cloudscape Design System patterns and components. 
+                Each demo shows best practices for cloud application experiences.
+              </Box>
+              
+              <Grid gridDefinition={[{ colspan: { default: 12, xs: 12, s: 12, m: 8, l: 8, xl: 8 } }]}>
+                <TextFilter
+                  filteringText={filterText}
+                  filteringPlaceholder="Find demos"
+                  filteringAriaLabel="Filter demos"
+                  countText={`${filteredDemos.length} matches`}
+                  onChange={({ detail }) => {
+                    setFilterText(detail.filteringText);
+                    setCurrentPageIndex(1);
+                  }}
+                />
               </Grid>
             </Container>
+
+            <Tabs
+              tabs={[
+                {
+                  id: 'All',
+                  label: 'All',
+                  content: null
+                },
+                ...categories.map(category => ({
+                  id: category,
+                  label: category,
+                  content: null
+                }))
+              ]}
+              activeTabId={activeCategory}
+              onChange={({ detail }) => {
+                setActiveCategory(detail.activeTabId);
+                setCurrentPageIndex(1);
+              }}
+            />
 
             <Cards
               ariaLabels={{
@@ -172,7 +181,12 @@ export default function Home() {
                   {
                     id: "actions",
                     content: item => (
-                      <Button href={item.route} iconAlign="right" iconName="external" variant="primary">
+                      <Button 
+                        href={item.route} 
+                        iconAlign="right" 
+                        iconName="external" 
+                        variant="primary"
+                      >
                         Open demo
                       </Button>
                     )
@@ -181,18 +195,16 @@ export default function Home() {
               }}
               cardsPerRow={[
                 { cards: 1, minWidth: 0 },
-                { cards: 2, minWidth: 500 },
+                { cards: 2, minWidth: 600 },
                 { cards: 3, minWidth: 900 },
                 { cards: 4, minWidth: 1200 }
               ]}
               items={paginatedDemos}
               loadingText="Loading demos"
-              selectedItems={selectedItems}
-              selectionType="multi"
               trackBy="title"
               visibleSections={["description", "type", "actions"]}
               empty={
-                <Box textAlign="center" color="inherit">
+                <Box textAlign="center" color="inherit" margin={{ top: 'xxl', bottom: 'xxl' }}>
                   <Box padding={{ bottom: "s" }} variant="p" color="inherit">
                     <Icon name="search" size="large" />
                   </Box>
@@ -203,17 +215,6 @@ export default function Home() {
                     Try changing the filters or search term
                   </Box>
                 </Box>
-              }
-              filter={
-                <TextFilter
-                  filteringText={filterText}
-                  filteringPlaceholder="Find demos"
-                  filteringAriaLabel="Filter demos"
-                  onChange={({ detail }) => {
-                    setFilterText(detail.filteringText);
-                    setCurrentPageIndex(1);
-                  }}
-                />
               }
               pagination={
                 <Pagination
@@ -229,7 +230,7 @@ export default function Home() {
               }
               header={
                 <Header
-                  counter={`(${filteredDemos.length})`}
+                  counter={filteredDemos.length > 0 ? `(${filteredDemos.length})` : undefined}
                 >
                   Available demos
                 </Header>
