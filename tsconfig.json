@@ -2,9 +2,9 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": ["es2017", "dom", "dom.iterable"],
     "noEmit": true,
     "declaration": false,
@@ -12,7 +12,8 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "allowJs": false
+    "allowJs": false,
+    "types": ["vite/client"]
   },
   "include": ["**/*.ts", "**/*.tsx"]
 }

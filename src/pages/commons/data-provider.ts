@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 export default class DataProvider {
   async getData<T>(name: string) {
-    const response = await fetch(`./resources/${name}.json`);
+    const response = await fetch(`/${name}.json`);
     if (!response.ok) {
       throw new Error(`Response error: ${response.status}`);
     }

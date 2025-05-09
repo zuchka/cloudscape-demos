@@ -17,17 +17,28 @@ npm install
 npm run build
 ```
 
-The demo artifacts will be output to the `/build` folder.
+The demo artifacts will be output to the `/dist` folder.
 
-### Run Dev Server
+### Run Dev Server (with Vite)
 
-To start a dev server with live reload:
+To start a dev server with live reload and filesystem routing:
 
 ```
-npm start
+npm run dev
 ```
 
-The demos will be available at http://localhost:9615.
+The demos will be available at http://localhost:5173 (or the port Vite chooses).
+
+- Each file in `src/pages/` automatically becomes a route (e.g., `src/pages/cards/index.tsx` → `/cards`).
+- Add new pages to `src/pages/` to create new routes instantly.
+
+### Preview Production Build
+
+To preview the production build locally:
+
+```
+npm run preview
+```
 
 ### Run Tests
 
@@ -35,13 +46,7 @@ The demos will be available at http://localhost:9615.
 npm test
 ```
 
-This will build the project by running the `build` script, start a webpack dev server instance and run tests afterwards.
-
-To run only tests without building the full project again:
-
-```
-npm run test-no-build
-```
+This will run the test suite.
 
 ## Security
 

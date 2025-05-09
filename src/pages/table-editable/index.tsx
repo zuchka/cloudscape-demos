@@ -1,14 +1,18 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
-import React from 'react';
-import { createRoot } from 'react-dom/client';
 
-import { Distribution } from '../../fake-server/types';
-import DataProvider from '../commons/data-provider';
+import React, { useEffect, useState } from 'react';
 import { App } from './root';
+import DataProvider from '../commons/data-provider';
+import { Distribution } from '../../fake-server/types';
 
-const dataProvider = new DataProvider();
-
-dataProvider.getData<Distribution>('distributions').then(distributions => {
-  createRoot(document.getElementById('app')!).render(<App distributions={distributions} />);
-});
+export default function TableEditableDemo() {
+  const [distributions, setDistributions] = useState<Distribution[] | null>(null);
+  useEffect(() => {
+    new DataProvider().getData<Distribution>('distributions').then(setDistributions);
+  }, []);
+  if (!distributions) {
+    return <div>Loading...</div>;
+  }
+  return <App distributions={distributions} />;
+}
