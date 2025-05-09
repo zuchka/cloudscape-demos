@@ -64,3 +64,11 @@ export const paletteI18nStrings: ItemsPaletteProps.I18nStrings<WidgetDataType> =
   liveAnnouncementDndStarted: 'Dragging',
   liveAnnouncementDndDiscarded: 'Insertion discarded',
 };
+
+// Export a default object with all the i18n strings
+export default {
+  boardItemI18nStrings,
+  boardI18nStrings,
+  paletteI18nStrings,
+  createAnnouncement,
+};

@@ -132,3 +132,13 @@ export const TAGS_COLUMN_DEFINITIONS: TableProps.ColumnDefinition<{
     sortingField: 'value',
   },
 ];
+
+// Export a default object with all the configuration
+export default {
+  ORIGINS_COLUMN_DEFINITIONS,
+  BEHAVIORS_COLUMN_DEFINITIONS,
+  LOGS_COLUMN_DEFINITIONS,
+  INSTANCE_DROPDOWN_ITEMS,
+  INVALIDATIONS_COLUMN_DEFINITIONS,
+  TAGS_COLUMN_DEFINITIONS,
+};
