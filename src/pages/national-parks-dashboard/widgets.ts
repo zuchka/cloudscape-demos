@@ -4,7 +4,13 @@ import { BoardProps } from '@cloudscape-design/board-components/board';
 
 import { StoredWidgetPlacement } from './interfaces';
 import { WidgetConfig, WidgetDataType } from './widgets/interfaces';
-import { parkOverview, parkAlerts, parkEvents, parkAmenities, parkWeather, parkImages, visitorStats } from './widgets';
+import { parkOverview } from './widgets/park-overview';
+import { parkAlerts } from './widgets/park-alerts';
+import { parkEvents } from './widgets/park-events';
+import { parkAmenities } from './widgets/park-amenities';
+import { parkWeather } from './widgets/park-weather';
+import { parkImages } from './widgets/park-images';
+import { visitorStats } from './widgets/visitor-stats';
 
 export const allWidgets: Record<string, WidgetConfig> = {
   parkOverview,
