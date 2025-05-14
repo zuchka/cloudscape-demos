@@ -117,7 +117,7 @@ export function App() {
         <CustomAppLayout
           ref={appLayoutRef}
           contentType="dashboard"
-          breadcrumbs={<Breadcrumbs items={[{ text: 'National Parks Dashboard', href: '#/' }]} />}
+          breadcrumbs={<Breadcrumbs items={[{ text: 'National Parks Dashboard', href: '/' }]} />}
           navigation={<DashboardSideNavigation />}
           toolsOpen={toolsOpen}
           tools={toolsContent}
