@@ -8,7 +8,6 @@ import Header from '@cloudscape-design/components/header';
 import Grid from '@cloudscape-design/components/grid';
 import Box from '@cloudscape-design/components/box';
 import Cards from '@cloudscape-design/components/cards';
-import Badge from '@cloudscape-design/components/badge';
 import Button from '@cloudscape-design/components/button';
 import SpaceBetween from '@cloudscape-design/components/space-between';
 import TextFilter from '@cloudscape-design/components/text-filter';
@@ -139,7 +138,7 @@ const demos = [
 // Get unique categories
 const categories = [...new Set(demos.map(demo => demo.category))];
 
-export default function Home() {
+export default function DemoCatalog() {
   const [filterText, setFilterText] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [currentPageIndex, setCurrentPageIndex] = useState(1);
