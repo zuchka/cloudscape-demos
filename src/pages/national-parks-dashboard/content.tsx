@@ -49,13 +49,7 @@ export function Content({ layout, setLayout, resetLayout, setSplitPanelOpen }: C
   return (
     <SpaceBetween size="m">
       <div style={{ marginLeft: '1px' }}>
-        <DashboardHeader
-          actions={
-            <SpaceBetween size="xs" direction="horizontal">
-              {/* Buttons hidden as per requirement */}
-            </SpaceBetween>
-          }
-        />
+        <DashboardHeader actions={null} />
       </div>
 
       <ParkSelector />
