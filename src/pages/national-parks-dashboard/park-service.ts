@@ -3,7 +3,7 @@
 import { Park, ParkAlert, ParkEvent, VisitorStat } from './interfaces';
 
 // Mock API Key for demo purposes
-const API_KEY = 'demo-key';
+const API_KEY = '58IiAxB4LHJoUGCtdQfUJjZhkh7r0E0pqsrcUzPd';
 const BASE_URL = 'https://developer.nps.gov/api/v1';
 
 export async function getParks(limit = 50): Promise<Park[]> {
@@ -404,13 +404,20 @@ function getMockAlerts(parkCode: string): ParkAlert[] {
 }
 
 function getMockEvents(parkCode: string): ParkEvent[] {
+  // Helper to get a future date
+  const getFutureDate = (daysFromNow: number) => {
+    const date = new Date();
+    date.setDate(date.getDate() + daysFromNow);
+    return date.toISOString().split('T')[0];
+  };
+
   return [
     {
       title: 'Ranger-led Hike',
       description: 'Join a park ranger for a guided hike through the scenic trails of the park.',
       location: 'Visitor Center',
-      dateStart: '2023-07-15',
-      dateEnd: '2023-07-15',
+      dateStart: getFutureDate(7),
+      dateEnd: getFutureDate(7),
       times: [
         {
           timeStart: '09:00',
@@ -425,8 +432,8 @@ function getMockEvents(parkCode: string): ParkEvent[] {
       title: 'Wildlife Photography Workshop',
       description: 'Learn wildlife photography techniques from professional photographers in the park.',
       location: 'Education Center',
-      dateStart: '2023-07-20',
-      dateEnd: '2023-07-22',
+      dateStart: getFutureDate(14),
+      dateEnd: getFutureDate(16),
       times: [
         {
           timeStart: '10:00',
@@ -442,8 +449,8 @@ function getMockEvents(parkCode: string): ParkEvent[] {
       description:
         "Gather around the campfire for stories and information about the park's natural and cultural history.",
       location: 'Amphitheater',
-      dateStart: '2023-07-18',
-      dateEnd: '2023-07-18',
+      dateStart: getFutureDate(10),
+      dateEnd: getFutureDate(10),
       times: [
         {
           timeStart: '20:00',

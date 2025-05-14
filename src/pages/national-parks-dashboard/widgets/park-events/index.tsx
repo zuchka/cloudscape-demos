@@ -16,28 +16,38 @@ function ParkEventsHeader() {
 }
 
 function formatDateRange(startDate: string, endDate: string) {
-  // Format the date range for display
-  const start = new Date(startDate);
-  const end = new Date(endDate);
+  try {
+    // Format the date range for display
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
-  // Check if dates are the same
-  if (startDate === endDate) {
-    return new Intl.DateTimeFormat('en-US', {
+    // Check if dates are valid
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return 'Date not specified';
+    }
+
+    // Check if dates are the same
+    if (startDate === endDate) {
+      return new Intl.DateTimeFormat('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      }).format(start);
+    }
+
+    // Different dates
+    return `${new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+    }).format(start)} - ${new Intl.DateTimeFormat('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
-    }).format(start);
+    }).format(end)}`;
+  } catch (error) {
+    console.error('Error formatting date range:', error);
+    return 'Date not specified';
   }
-
-  // Different dates
-  return `${new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-  }).format(start)} - ${new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(end)}`;
 }
 
 function formatTimeRange(times: Array<{ timeStart: string; timeEnd: string }>) {
@@ -45,19 +55,37 @@ function formatTimeRange(times: Array<{ timeStart: string; timeEnd: string }>) {
     return 'Time not specified';
   }
 
-  // Just use the first time range for simplicity
-  const { timeStart, timeEnd } = times[0];
+  try {
+    // Just use the first time range for simplicity
+    const { timeStart, timeEnd } = times[0];
 
-  // Format time in 12-hour format
-  const formatTime = (timeStr: string) => {
-    const [hours, minutes] = timeStr.split(':');
-    const hour = parseInt(hours, 10);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const hour12 = hour % 12 || 12;
-    return `${hour12}:${minutes} ${ampm}`;
-  };
+    if (!timeStart || !timeEnd) {
+      return 'Time not specified';
+    }
 
-  return `${formatTime(timeStart)} - ${formatTime(timeEnd)}`;
+    // Format time in 12-hour format
+    const formatTime = (timeStr: string) => {
+      try {
+        const [hours, minutes] = timeStr.split(':');
+        if (!hours || !minutes) return 'Invalid time';
+        
+        const hour = parseInt(hours, 10);
+        if (isNaN(hour) || hour < 0 || hour > 23) return 'Invalid time';
+        
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 || 12;
+        return `${hour12}:${minutes} ${ampm}`;
+      } catch (error) {
+        console.error('Error formatting time:', error);
+        return 'Invalid time';
+      }
+    };
+
+    return `${formatTime(timeStart)} - ${formatTime(timeEnd)}`;
+  } catch (error) {
+    console.error('Error formatting time range:', error);
+    return 'Time not specified';
+  }
 }
 
 function ParkEventsWidget() {
@@ -100,7 +128,7 @@ function ParkEventsWidget() {
       ]}
       items={events}
       loadingText="Loading events"
-      trackBy="title"
+      trackBy={item => `${item.title}-${item.dateStart}-${item.location}`}
       empty={
         <div style={{ textAlign: 'center', padding: '20px 0' }}>
           <b>No events</b>
