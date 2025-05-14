@@ -48,16 +48,15 @@ export function Content({ layout, setLayout, resetLayout, setSplitPanelOpen }: C
 
   return (
     <SpaceBetween size="m">
-      <DashboardHeader
-        actions={
-          <SpaceBetween size="xs" direction="horizontal">
-            <ResetButton onReset={handleResetLayout}>Reset to default layout</ResetButton>
-            <Button iconName="add-plus" onClick={() => setSplitPanelOpen(true)}>
-              Add widget
-            </Button>
-          </SpaceBetween>
-        }
-      />
+      <div style={{ marginLeft: '1px' }}>
+        <DashboardHeader
+          actions={
+            <SpaceBetween size="xs" direction="horizontal">
+              {/* Buttons hidden as per requirement */}
+            </SpaceBetween>
+          }
+        />
+      </div>
 
       <ParkSelector />
 

@@ -37,10 +37,11 @@ export function DashboardHeader({ actions }: { actions: React.ReactNode }) {
   return (
     <Header
       variant="h1"
-      info={<InfoLink onFollow={() => loadHelpPanelContent(<DashboardMainInfo />)} />}
+      info={<InfoLink onFollow={() => loadHelpPanelContent(<DashboardMainInfo />)} hidden />}
       actions={actions}
     >
-      Service Dashboard
+      National Parks Service Dashboard (NPS API)
+      <br />
     </Header>
   );
 }
